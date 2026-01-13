@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NextStep AI – Smarter Decisions for Gen Z</title>
+  <title>NextStep AI – DeepSeek Powered Decision Helper</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
@@ -12,6 +12,7 @@
       --secondary: #8b5cf6;
       --accent: #10b981;
       --danger: #ef4444;
+      --warning: #f59e0b;
       --light: #f8fafc;
       --dark: #0f172a;
       --gray: #64748b;
@@ -39,7 +40,7 @@
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
@@ -75,41 +76,16 @@
       font-size: 1.2rem;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-    }
-
-    .nav-links a {
-      color: var(--gray);
-      text-decoration: none;
-      font-weight: 500;
-      transition: var(--transition);
-      padding: 8px 16px;
-      border-radius: var(--radius-sm);
-    }
-
-    .nav-links a:hover {
-      color: var(--primary);
-      background: rgba(99, 102, 241, 0.05);
-    }
-
-    .nav-links a.active {
-      color: var(--primary);
-      background: rgba(99, 102, 241, 0.1);
-    }
-
-    /* Main Content */
-    main {
+    /* Main Layout */
+    .main-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 40px;
       margin-bottom: 60px;
     }
 
-    @media (max-width: 768px) {
-      main {
+    @media (max-width: 968px) {
+      .main-layout {
         grid-template-columns: 1fr;
       }
     }
@@ -121,6 +97,8 @@
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       transition: var(--transition);
+      position: sticky;
+      top: 20px;
     }
 
     .decision-form:hover {
@@ -128,33 +106,18 @@
     }
 
     .form-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
       margin-bottom: 24px;
-    }
-
-    .form-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--gradient);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.5rem;
     }
 
     .form-title {
       font-size: 1.8rem;
       font-weight: 700;
       color: var(--dark);
+      margin-bottom: 8px;
     }
 
     .form-subtitle {
       color: var(--gray);
-      margin-bottom: 32px;
     }
 
     /* Form Elements */
@@ -184,6 +147,9 @@
       font-size: 1rem;
       transition: var(--transition);
       resize: vertical;
+    }
+
+    textarea {
       min-height: 100px;
     }
 
@@ -201,33 +167,37 @@
     }
 
     /* Priority Selector */
-    .priority-selector {
-      display: flex;
-      flex-wrap: wrap;
+    .priority-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
       margin-top: 8px;
     }
 
-    .priority-chip {
-      padding: 8px 16px;
+    .priority-card {
+      padding: 12px;
       background: var(--light);
       border: 2px solid var(--gray-light);
-      border-radius: 20px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
       transition: var(--transition);
-      font-size: 0.9rem;
-      font-weight: 500;
+      text-align: center;
     }
 
-    .priority-chip:hover {
+    .priority-card:hover {
       border-color: var(--primary);
       background: rgba(99, 102, 241, 0.05);
     }
 
-    .priority-chip.selected {
+    .priority-card.selected {
       background: var(--primary);
       color: white;
       border-color: var(--primary);
+    }
+
+    .priority-icon {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
     }
 
     /* Buttons */
@@ -282,23 +252,7 @@
       padding: 32px;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      display: none;
-    }
-
-    .results-panel.active {
-      display: block;
-      animation: slideIn 0.5s ease-out;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      min-height: 600px;
     }
 
     .results-header {
@@ -325,77 +279,29 @@
       border-radius: 20px;
       font-size: 0.75rem;
       font-weight: 600;
-    }
-
-    /* Analysis Sections */
-    .analysis-section {
-      margin-bottom: 24px;
-      padding: 20px;
-      background: var(--light);
-      border-radius: var(--radius-sm);
-    }
-
-    .section-title {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 12px;
-      color: var(--dark);
-      font-weight: 600;
-    }
-
-    .section-icon {
-      color: var(--primary);
-    }
-
-    .insight-text {
-      line-height: 1.8;
-      color: var(--dark);
-    }
-
-    .confidence-meter {
-      margin-top: 16px;
-    }
-
-    .meter-label {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-    }
-
-    .meter-bar {
-      height: 8px;
-      background: var(--gray-light);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .meter-fill {
-      height: 100%;
-      background: var(--gradient);
-      border-radius: 4px;
-      width: 0;
-      transition: width 1s ease-out;
+      gap: 4px;
     }
 
     /* Loading State */
-    .loading {
+    .loading-state {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px;
+      padding: 60px 20px;
       text-align: center;
     }
 
-    .spinner {
-      width: 48px;
-      height: 48px;
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
       border: 4px solid var(--gray-light);
       border-top: 4px solid var(--primary);
       border-radius: 50%;
       animation: spin 1s linear infinite;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     @keyframes spin {
@@ -403,10 +309,129 @@
       100% { transform: rotate(360deg); }
     }
 
+    .loading-dots {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .loading-dots span {
+      width: 8px;
+      height: 8px;
+      background: var(--primary);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out;
+    }
+
+    .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+    .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* AI Response Sections */
+    .ai-section {
+      margin-bottom: 24px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .section-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--light);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .ai-content {
+      line-height: 1.8;
+      color: var(--dark);
+    }
+
+    .ai-content ul, .ai-content ol {
+      margin-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .ai-content li {
+      margin-bottom: 8px;
+    }
+
+    /* Risk Assessment */
+    .risk-indicator {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(239, 68, 68, 0.05);
+      border-radius: var(--radius-sm);
+      margin-top: 12px;
+    }
+
+    .risk-high { background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); }
+    .risk-medium { background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning); }
+    .risk-low { background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--accent); }
+
+    /* Confidence Meter */
+    .confidence-meter {
+      margin-top: 32px;
+      padding: 20px;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-radius: var(--radius-sm);
+    }
+
+    .meter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .meter-bar {
+      height: 12px;
+      background: var(--gray-light);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .meter-fill {
+      height: 100%;
+      background: var(--gradient);
+      border-radius: 6px;
+      width: 0;
+      transition: width 1s ease-out;
+    }
+
     /* Tips Panel */
     .tips-panel {
       background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
-      padding: 20px;
+      padding: 24px;
       border-radius: var(--radius);
       margin-top: 40px;
     }
@@ -434,37 +459,7 @@
       margin-top: 2px;
     }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 40px 0;
-      color: var(--gray);
-      border-top: 2px solid var(--light);
-      margin-top: 60px;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin: 20px 0;
-    }
-
-    .footer-links a {
-      color: var(--gray);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .footer-links a:hover {
-      color: var(--primary);
-    }
-
-    .copyright {
-      font-size: 0.875rem;
-    }
-
-    /* Toast Notifications */
+    /* Toast */
     .toast {
       position: fixed;
       bottom: 20px;
@@ -491,6 +486,41 @@
     .toast-icon {
       color: var(--accent);
     }
+
+    /* API Key Input */
+    .api-key-section {
+      margin-top: 24px;
+      padding: 16px;
+      background: rgba(99, 102, 241, 0.05);
+      border-radius: var(--radius-sm);
+      border: 2px dashed var(--gray-light);
+    }
+
+    .api-key-input {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .api-key-input input {
+      flex: 1;
+      font-family: monospace;
+    }
+
+    .help-text {
+      font-size: 0.875rem;
+      color: var(--gray);
+      margin-top: 8px;
+    }
+
+    .help-text a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .help-text a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 
@@ -498,32 +528,25 @@
   <div class="container">
     <!-- Header -->
     <header>
-      <a href="#" class="logo">
+      <div class="logo">
         <div class="logo-icon">
           <i class="fas fa-crosshairs"></i>
         </div>
         <span>NextStep AI</span>
-      </a>
-      <nav class="nav-links">
-        <a href="#" class="active">Decision Maker</a>
-        <a href="#">Templates</a>
-        <a href="#">Saved Decisions</a>
-        <a href="#">AI Coach</a>
-      </nav>
+      </div>
+      <div class="ai-badge">
+        <i class="fas fa-bolt"></i>
+        Powered by DeepSeek
+      </div>
     </header>
 
-    <!-- Main Content -->
-    <main>
+    <!-- Main Layout -->
+    <div class="main-layout">
       <!-- Decision Form -->
       <div class="decision-form">
         <div class="form-header">
-          <div class="form-icon">
-            <i class="fas fa-brain"></i>
-          </div>
-          <div>
-            <h1 class="form-title">What's Your Big Decision?</h1>
-            <p class="form-subtitle">Let AI help you think through it. No judgment, just clarity.</p>
-          </div>
+          <h1 class="form-title">What's Your Big Decision?</h1>
+          <p class="form-subtitle">Get detailed AI analysis using DeepSeek's advanced reasoning</p>
         </div>
 
         <!-- Decision Question -->
@@ -534,23 +557,23 @@
           </label>
           <textarea 
             id="decision" 
-            placeholder="e.g., Should I accept the job offer in another city or stay in my current role?"
-            maxlength="500"
-            rows="3"
+            placeholder="Describe your decision in detail... e.g., 'Should I accept the remote job offer in another country that pays 30% more, or stay in my current stable office job where I have good relationships?'"
+            maxlength="1000"
+            rows="4"
           ></textarea>
-          <div class="char-count" id="decision-count">0/500</div>
+          <div class="char-count" id="decision-count">0/1000</div>
         </div>
 
-        <!-- Options Section -->
+        <!-- Options -->
         <div class="form-group">
           <label class="form-label">
-            <i class="fas fa-balance-scale label-icon"></i>
+            <i class="fas fa-list-ul label-icon"></i>
             What are your options?
           </label>
           <textarea 
             id="options" 
-            placeholder="List your options here (one per line)..."
-            rows="4"
+            placeholder="List each option clearly (one per line)..."
+            rows="3"
           ></textarea>
         </div>
 
@@ -562,7 +585,7 @@
           </label>
           <textarea 
             id="pros" 
-            placeholder="What positive outcomes could happen?"
+            placeholder="What positive outcomes could happen for each option?"
             rows="3"
           ></textarea>
         </div>
@@ -575,7 +598,7 @@
           </label>
           <textarea 
             id="cons" 
-            placeholder="What negative outcomes are you worried about?"
+            placeholder="What negative outcomes or risks are you worried about?"
             rows="3"
           ></textarea>
         </div>
@@ -584,32 +607,72 @@
         <div class="form-group">
           <label class="form-label">
             <i class="fas fa-bullseye label-icon"></i>
-            What matters most to you right now?
+            What matters most to you?
           </label>
           <input 
             type="text" 
             id="priority" 
-            placeholder="Type your priority or choose below..."
+            placeholder="Your main priority (or select below)..."
           >
-          <div class="priority-selector">
-            <div class="priority-chip" data-priority="growth">Growth</div>
-            <div class="priority-chip" data-priority="stability">Stability</div>
-            <div class="priority-chip" data-priority="happiness">Happiness</div>
-            <div class="priority-chip" data-priority="security">Security</div>
-            <div class="priority-chip" data-priority="freedom">Freedom</div>
-            <div class="priority-chip" data-priority="balance">Balance</div>
+          <div class="priority-grid">
+            <div class="priority-card" data-priority="Career Growth">
+              <div class="priority-icon">🚀</div>
+              <div>Career Growth</div>
+            </div>
+            <div class="priority-card" data-priority="Financial Security">
+              <div class="priority-icon">💰</div>
+              <div>Financial Security</div>
+            </div>
+            <div class="priority-card" data-priority="Work-Life Balance">
+              <div class="priority-icon">⚖️</div>
+              <div>Work-Life Balance</div>
+            </div>
+            <div class="priority-card" data-priority="Personal Happiness">
+              <div class="priority-icon">😊</div>
+              <div>Personal Happiness</div>
+            </div>
+            <div class="priority-card" data-priority="Learning & Development">
+              <div class="priority-icon">📚</div>
+              <div>Learning & Development</div>
+            </div>
+            <div class="priority-card" data-priority="Stability & Safety">
+              <div class="priority-icon">🛡️</div>
+              <div>Stability & Safety</div>
+            </div>
           </div>
+        </div>
+
+        <!-- API Key Section (For demo purposes) -->
+        <div class="api-key-section">
+          <label class="form-label">
+            <i class="fas fa-key label-icon"></i>
+            DeepSeek API Key (Optional for demo)
+          </label>
+          <div class="api-key-input">
+            <input 
+              type="password" 
+              id="api-key" 
+              placeholder="Enter your DeepSeek API key for real AI analysis"
+            >
+            <button class="btn-secondary" onclick="saveAPIKey()" style="width: auto; padding: 0 16px;">
+              Save
+            </button>
+          </div>
+          <p class="help-text">
+            <a href="https://platform.deepseek.com/api_keys" target="_blank">Get your API key from DeepSeek</a> • 
+            Without key, uses mock analysis
+          </p>
         </div>
 
         <!-- Analyze Button -->
         <button class="btn-primary" id="analyze-btn" onclick="analyzeDecision()">
           <i class="fas fa-robot"></i>
-          Get AI Insight
+          Get DeepSeek AI Analysis
         </button>
 
         <button class="btn-secondary" onclick="clearForm()">
           <i class="fas fa-redo"></i>
-          Start Over
+          Clear Form
         </button>
       </div>
 
@@ -617,128 +680,121 @@
       <div class="results-panel" id="results-panel">
         <div class="results-header">
           <div class="results-title">
-            <i class="fas fa-chart-line" style="color: var(--primary);"></i>
-            Your AI Analysis
-            <span class="ai-badge">DeepSeek AI</span>
+            <i class="fas fa-chart-line"></i>
+            AI Decision Analysis
           </div>
-          <button onclick="shareResults()" style="background: none; border: none; color: var(--primary); cursor: pointer;">
-            <i class="fas fa-share-alt"></i>
-          </button>
+          <div class="ai-badge">
+            <i class="fas fa-brain"></i>
+            DeepSeek AI
+          </div>
         </div>
 
         <!-- Loading State -->
-        <div class="loading" id="loading">
-          <div class="spinner"></div>
-          <p>DeepSeek AI is analyzing your decision...</p>
-          <p style="font-size: 0.9rem; color: var(--gray); margin-top: 8px;">
-            Looking at patterns, calculating risks, and preparing insights
+        <div class="loading-state" id="loading-state">
+          <div class="loading-spinner"></div>
+          <h3>DeepSeek AI is analyzing your decision...</h3>
+          <p>This usually takes 10-15 seconds</p>
+          <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <p style="color: var(--gray); margin-top: 20px;">
+            <i class="fas fa-lightbulb"></i>
+            Thinking about: risks, opportunities, alignment with your priorities
           </p>
         </div>
 
-        <!-- Results Content -->
-        <div id="results-content" style="display: none;">
-          <!-- Decision Summary -->
-          <div class="analysis-section">
-            <div class="section-title">
-              <i class="fas fa-clipboard-list section-icon"></i>
-              Decision Summary
+        <!-- AI Results -->
+        <div id="ai-results" style="display: none;">
+          <!-- Decision Overview -->
+          <div class="ai-section">
+            <div class="section-header">
+              <div class="section-icon">
+                <i class="fas fa-clipboard-list"></i>
+              </div>
+              <h3 class="section-title">Decision Overview</h3>
             </div>
-            <div class="insight-text" id="decision-summary">
-              <!-- Filled by JS -->
+            <div class="ai-content" id="overview-content">
+              <!-- Filled by AI -->
             </div>
           </div>
 
-          <!-- AI Insight -->
-          <div class="analysis-section">
-            <div class="section-title">
-              <i class="fas fa-lightbulb section-icon"></i>
-              AI Insight
+          <!-- In-Depth Analysis -->
+          <div class="ai-section">
+            <div class="section-header">
+              <div class="section-icon">
+                <i class="fas fa-search"></i>
+              </div>
+              <h3 class="section-title">In-Depth Analysis</h3>
             </div>
-            <div class="insight-text" id="ai-insight">
-              <!-- Filled by JS -->
+            <div class="ai-content" id="analysis-content">
+              <!-- Filled by AI -->
             </div>
           </div>
 
           <!-- Risk Assessment -->
-          <div class="analysis-section">
-            <div class="section-title">
-              <i class="fas fa-exclamation-triangle section-icon"></i>
-              Risk Assessment
+          <div class="ai-section">
+            <div class="section-header">
+              <div class="section-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+              <h3 class="section-title">Risk Assessment</h3>
             </div>
-            <div class="insight-text" id="risk-assessment">
-              <!-- Filled by JS -->
-            </div>
-          </div>
-
-          <!-- Recommended Action -->
-          <div class="analysis-section">
-            <div class="section-title">
-              <i class="fas fa-arrow-circle-right section-icon"></i>
-              Recommended Next Step
-            </div>
-            <div class="insight-text" id="recommended-action">
-              <!-- Filled by JS -->
+            <div class="ai-content" id="risk-content">
+              <!-- Filled by AI -->
             </div>
           </div>
 
-          <!-- Confidence Meter -->
+          <!-- Action Plan -->
+          <div class="ai-section">
+            <div class="section-header">
+              <div class="section-icon">
+                <i class="fas fa-road"></i>
+              </div>
+              <h3 class="section-title">Recommended Action Plan</h3>
+            </div>
+            <div class="ai-content" id="action-content">
+              <!-- Filled by AI -->
+            </div>
+          </div>
+
+          <!-- Confidence Level -->
           <div class="confidence-meter">
-            <div class="meter-label">
-              <span>Confidence Level</span>
-              <span id="confidence-value">0%</span>
+            <div class="meter-header">
+              <span style="font-weight: 600;">AI Confidence Level</span>
+              <span id="confidence-value" style="font-weight: 700; font-size: 1.2rem;">0%</span>
             </div>
             <div class="meter-bar">
               <div class="meter-fill" id="confidence-fill"></div>
             </div>
-          </div>
-
-          <!-- Additional Actions -->
-          <div style="margin-top: 24px; display: flex; gap: 12px;">
-            <button class="btn-secondary" onclick="getMoreDetails()">
-              <i class="fas fa-search"></i>
-              Ask Follow-up
-            </button>
-            <button class="btn-secondary" onclick="saveDecision()">
-              <i class="fas fa-bookmark"></i>
-              Save Decision
-            </button>
+            <p style="color: var(--gray); font-size: 0.875rem; margin-top: 8px;">
+              Based on clarity of input, consistency of priorities, and historical decision patterns
+            </p>
           </div>
         </div>
       </div>
-    </main>
+    </div>
 
     <!-- Tips Panel -->
     <div class="tips-panel">
       <h3 class="tips-title">
         <i class="fas fa-lightbulb" style="color: var(--accent);"></i>
-        Tips for Better Decisions
+        Pro Tips for Better Decisions
       </h3>
       <div class="tip-item">
         <i class="fas fa-clock tip-icon"></i>
-        <div>Sleep on it – major decisions often look different in the morning</div>
+        <div><strong>Sleep on it:</strong> Major decisions often look different after a good night's sleep.</div>
       </div>
       <div class="tip-item">
         <i class="fas fa-users tip-icon"></i>
-        <div>Talk to someone who's been in a similar situation</div>
+        <div><strong>Get perspectives:</strong> Talk to 2-3 people who've faced similar choices.</div>
       </div>
       <div class="tip-item">
         <i class="fas fa-chart-line tip-icon"></i>
-        <div>Consider the 10/10/10 rule: How will you feel in 10 days, 10 months, 10 years?</div>
+        <div><strong>10/10/10 rule:</strong> How will you feel in 10 days, 10 months, 10 years?</div>
       </div>
     </div>
-
-    <!-- Footer -->
-    <footer>
-      <div class="footer-links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-        <a href="#">FAQ</a>
-        <a href="#">Contact</a>
-      </div>
-      <p class="copyright">
-        Powered by DeepSeek AI • Made with ❤️ for better decisions
-      </p>
-    </footer>
   </div>
 
   <!-- Toast Notification -->
@@ -753,38 +809,47 @@
     const decisionCount = document.getElementById('decision-count');
     
     decisionTextarea.addEventListener('input', function() {
-      decisionCount.textContent = `${this.value.length}/500`;
+      decisionCount.textContent = `${this.value.length}/1000`;
     });
 
-    // Priority chip selection
-    const priorityChips = document.querySelectorAll('.priority-chip');
+    // Priority card selection
+    const priorityCards = document.querySelectorAll('.priority-card');
     const priorityInput = document.getElementById('priority');
     
-    priorityChips.forEach(chip => {
-      chip.addEventListener('click', function() {
-        priorityChips.forEach(c => c.classList.remove('selected'));
+    priorityCards.forEach(card => {
+      card.addEventListener('click', function() {
+        priorityCards.forEach(c => c.classList.remove('selected'));
         this.classList.add('selected');
-        priorityInput.value = this.textContent;
+        priorityInput.value = this.getAttribute('data-priority');
       });
     });
 
-    // Clear form function
+    // Save API key to localStorage
+    function saveAPIKey() {
+      const apiKey = document.getElementById('api-key').value.trim();
+      if (apiKey) {
+        localStorage.setItem('deepseek_api_key', apiKey);
+        document.getElementById('api-key').value = '••••••••••••••••';
+        showToast('API key saved! It will be used for future analyses.');
+      }
+    }
+
+    // Clear form
     function clearForm() {
       document.getElementById('decision').value = '';
       document.getElementById('options').value = '';
       document.getElementById('pros').value = '';
       document.getElementById('cons').value = '';
       document.getElementById('priority').value = '';
-      priorityChips.forEach(c => c.classList.remove('selected'));
-      decisionCount.textContent = '0/500';
+      priorityCards.forEach(c => c.classList.remove('selected'));
+      decisionCount.textContent = '0/1000';
       
       // Hide results
-      document.getElementById('results-panel').classList.remove('active');
-      document.getElementById('results-content').style.display = 'none';
-      document.getElementById('loading').style.display = 'flex';
+      document.getElementById('ai-results').style.display = 'none';
+      document.getElementById('loading-state').style.display = 'flex';
     }
 
-    // Show toast notification
+    // Show toast
     function showToast(message) {
       const toast = document.getElementById('toast');
       const toastMessage = document.getElementById('toast-message');
@@ -797,21 +862,115 @@
       }, 3000);
     }
 
-    // Share results
-    function shareResults() {
-      if (navigator.share) {
-        navigator.share({
-          title: 'My Decision Analysis',
-          text: 'Check out my decision analysis from NextStep AI!',
-          url: window.location.href
+    // REAL DEEPSEEK API CALL
+    async function callDeepSeekAPI(decision, options, pros, cons, priority) {
+      const apiKey = localStorage.getItem('deepseek_api_key');
+      
+      // If no API key, use mock response
+      if (!apiKey) {
+        console.log('No API key found, using mock response');
+        return generateMockResponse(decision, options, pros, cons, priority);
+      }
+
+      try {
+        const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: 'deepseek-chat',
+            messages: [
+              {
+                role: 'system',
+                content: `You are an expert decision-making assistant. Analyze decisions with depth and clarity. 
+                Provide structured, actionable insights. Format your response with these EXACT sections:
+                
+                1. DECISION OVERVIEW: Summarize the decision context and key factors.
+                2. IN-DEPTH ANALYSIS: Analyze each option's alignment with user's priority (${priority}), considering pros/cons.
+                3. RISK ASSESSMENT: Evaluate short-term and long-term risks for each option. Use risk levels (High/Medium/Low).
+                4. ACTION PLAN: Provide specific, actionable steps with timelines.
+                
+                Use bullet points, be specific, and provide practical advice.`
+              },
+              {
+                role: 'user',
+                content: `DECISION: ${decision}
+                OPTIONS: ${options}
+                PROS: ${pros}
+                CONS: ${cons}
+                PRIORITY: ${priority}
+                
+                Please provide detailed analysis in the specified format.`
+              }
+            ],
+            max_tokens: 2000,
+            temperature: 0.7
+          })
         });
-      } else {
-        navigator.clipboard.writeText(window.location.href);
-        showToast('Link copied to clipboard!');
+
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.choices[0].message.content;
+        
+      } catch (error) {
+        console.error('DeepSeek API Error:', error);
+        showToast('API Error - Using mock analysis');
+        return generateMockResponse(decision, options, pros, cons, priority);
       }
     }
 
-    // Mock AI analysis function (Replace with actual DeepSeek API call)
+    // Parse AI response into sections
+    function parseAIResponse(aiResponse) {
+      const sections = {
+        overview: '',
+        analysis: '',
+        risk: '',
+        action: ''
+      };
+
+      const lines = aiResponse.split('\n');
+      let currentSection = '';
+      
+      for (const line of lines) {
+        const trimmedLine = line.trim();
+        
+        if (trimmedLine.includes('DECISION OVERVIEW') || trimmedLine.includes('1.')) {
+          currentSection = 'overview';
+          continue;
+        } else if (trimmedLine.includes('IN-DEPTH ANALYSIS') || trimmedLine.includes('2.')) {
+          currentSection = 'analysis';
+          continue;
+        } else if (trimmedLine.includes('RISK ASSESSMENT') || trimmedLine.includes('3.')) {
+          currentSection = 'risk';
+          continue;
+        } else if (trimmedLine.includes('ACTION PLAN') || trimmedLine.includes('4.')) {
+          currentSection = 'action';
+          continue;
+        }
+        
+        if (currentSection && trimmedLine) {
+          sections[currentSection] += (sections[currentSection] ? '\n' : '') + line;
+        }
+      }
+
+      // If parsing didn't work, split response evenly
+      if (!sections.overview) {
+        const parts = aiResponse.split(/(?=[A-Z]{2,})/);
+        sections.overview = parts[0] || aiResponse.slice(0, aiResponse.length / 4);
+        sections.analysis = parts[1] || aiResponse.slice(aiResponse.length / 4, aiResponse.length / 2);
+        sections.risk = parts[2] || aiResponse.slice(aiResponse.length / 2, aiResponse.length * 3/4);
+        sections.action = parts[3] || aiResponse.slice(aiResponse.length * 3/4);
+      }
+
+      return sections;
+    }
+
+    // Main analysis function
     async function analyzeDecision() {
       const decision = document.getElementById('decision').value.trim();
       const options = document.getElementById('options').value.trim();
@@ -820,7 +979,7 @@
       const priority = document.getElementById('priority').value.trim();
 
       if (!decision) {
-        showToast('Please describe your decision first!');
+        showToast('Please describe your decision!');
         return;
       }
 
@@ -829,151 +988,144 @@
         return;
       }
 
-      // Show loading state
+      // UI State
       const analyzeBtn = document.getElementById('analyze-btn');
       const originalText = analyzeBtn.innerHTML;
-      analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+      analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Contacting DeepSeek AI...';
       analyzeBtn.disabled = true;
 
-      // Show results panel
-      document.getElementById('results-panel').classList.add('active');
-      document.getElementById('loading').style.display = 'flex';
-      document.getElementById('results-content').style.display = 'none';
+      // Show loading
+      document.getElementById('loading-state').style.display = 'flex';
+      document.getElementById('ai-results').style.display = 'none';
 
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      // In a real implementation, you would call the DeepSeek API here:
-      // const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Authorization': 'Bearer YOUR_DEEPSEEK_API_KEY'
-      //   },
-      //   body: JSON.stringify({
-      //     model: 'deepseek-chat',
-      //     messages: [{
-      //       role: 'user',
-      //       content: `Analyze this decision: ${decision}. Options: ${options}. Pros: ${pros}. Cons: ${cons}. Priority: ${priority}. Provide insights, risks, and recommendations.`
-      //     }]
-      //   })
-      // });
-      // const data = await response.json();
-      // const aiResponse = data.choices[0].message.content;
-
-      // For now, use mock responses based on input
-      const mockResponses = generateMockAIResponse(decision, options, pros, cons, priority);
-
-      // Hide loading, show results
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('results-content').style.display = 'block';
-
-      // Update results
-      document.getElementById('decision-summary').innerHTML = mockResponses.summary;
-      document.getElementById('ai-insight').innerHTML = mockResponses.insight;
-      document.getElementById('risk-assessment').innerHTML = mockResponses.risk;
-      document.getElementById('recommended-action').innerHTML = mockResponses.action;
-
-      // Update confidence meter
-      const confidence = Math.floor(Math.random() * 30) + 65; // 65-95%
-      document.getElementById('confidence-value').textContent = `${confidence}%`;
-      setTimeout(() => {
-        document.getElementById('confidence-fill').style.width = `${confidence}%`;
-      }, 100);
-
-      // Reset button
-      analyzeBtn.innerHTML = originalText;
-      analyzeBtn.disabled = false;
-
-      showToast('AI analysis complete!');
-    }
-
-    // Generate mock AI response (Replace with actual DeepSeek API)
-    function generateMockAIResponse(decision, options, pros, cons, priority) {
-      const priorities = {
-        'growth': 'focus on learning and development opportunities',
-        'stability': 'prioritize security and predictability',
-        'happiness': 'focus on emotional well-being and satisfaction',
-        'security': 'look for safety and low-risk options',
-        'freedom': 'value flexibility and independence',
-        'balance': 'seek equilibrium between different life areas'
-      };
-
-      const priorityFocus = priorities[priority.toLowerCase()] || priority;
-
-      return {
-        summary: `
-          <p><strong>Decision:</strong> ${decision}</p>
-          <p><strong>Priority Focus:</strong> ${priorityFocus}</p>
-          <p><strong>Options Considered:</strong> ${options || 'Not specified'}</p>
-          <p><strong>Key Factors:</strong> ${pros.split('\n').filter(p => p.trim()).slice(0, 3).join(', ')}</p>
-        `,
-        insight: `
-          <p>Based on your priority of <strong>${priority}</strong>, the AI suggests that you should:</p>
-          <ul style="margin-top: 8px; padding-left: 20px;">
-            <li>Weigh long-term satisfaction over short-term comfort</li>
-            <li>Consider how this aligns with your 5-year goals</li>
-            <li>Remember that discomfort often leads to growth</li>
-          </ul>
-          <p style="margin-top: 12px;"><em>"${generateWisdomQuote()}"</em></p>
-        `,
-        risk: `
-          <p>Potential risks to consider:</p>
-          <ul style="margin-top: 8px; padding-left: 20px;">
-            ${cons ? cons.split('\n').filter(c => c.trim()).map(c => `<li>${c}</li>`).join('') : '<li>No specific risks identified</li>'}
-          </ul>
-          <p style="margin-top: 12px; color: var(--accent);">
-            <i class="fas fa-shield-alt"></i> Most risks appear manageable with proper planning.
-          </p>
-        `,
-        action: `
-          <div style="background: rgba(99, 102, 241, 0.1); padding: 16px; border-radius: 8px; border-left: 4px solid var(--primary);">
-            <strong>Recommended Action:</strong>
-            <p style="margin-top: 8px;">Take the next 48 hours to gather more information about your top option. Talk to 2-3 people who've made similar choices.</p>
-            <p style="margin-top: 8px;"><strong>Timeline:</strong> Make a final decision within the next week.</p>
-          </div>
-        `
-      };
-    }
-
-    function generateWisdomQuote() {
-      const quotes = [
-        "The hardest decisions in life are not between good and bad, but between good and good.",
-        "Don't make decisions based on fear. Make them based on hope and possibility.",
-        "Sometimes the wrong choices bring us to the right places.",
-        "Your decisions today create your reality tomorrow.",
-        "The best time to make a decision was yesterday. The second best time is now."
-      ];
-      return quotes[Math.floor(Math.random() * quotes.length)];
-    }
-
-    // Additional feature functions
-    function getMoreDetails() {
-      const decision = document.getElementById('decision').value;
-      if (!decision) {
-        showToast('Please analyze a decision first!');
-        return;
+      try {
+        // Call DeepSeek API
+        const aiResponse = await callDeepSeekAPI(decision, options, pros, cons, priority);
+        
+        // Parse response
+        const sections = parseAIResponse(aiResponse);
+        
+        // Display results
+        document.getElementById('overview-content').innerHTML = formatText(sections.overview);
+        document.getElementById('analysis-content').innerHTML = formatText(sections.analysis);
+        document.getElementById('risk-content').innerHTML = formatText(sections.risk);
+        document.getElementById('action-content').innerHTML = formatText(sections.action);
+        
+        // Calculate confidence
+        const confidence = calculateConfidence(decision, options, pros, cons);
+        document.getElementById('confidence-value').textContent = `${confidence}%`;
+        setTimeout(() => {
+          document.getElementById('confidence-fill').style.width = `${confidence}%`;
+        }, 100);
+        
+        // Show results
+        document.getElementById('loading-state').style.display = 'none';
+        document.getElementById('ai-results').style.display = 'block';
+        
+        showToast('DeepSeek analysis complete!');
+        
+      } catch (error) {
+        console.error('Analysis error:', error);
+        showToast('Analysis failed. Please try again.');
+      } finally {
+        analyzeBtn.innerHTML = originalText;
+        analyzeBtn.disabled = false;
       }
-      showToast('Asking AI for deeper insights...');
-      // In real app, make another API call to DeepSeek
     }
 
-    function saveDecision() {
-      const decision = document.getElementById('decision').value;
-      if (!decision) {
-        showToast('Please analyze a decision first!');
-        return;
+    // Format text with proper HTML
+    function formatText(text) {
+      if (!text) return '<p>No content available.</p>';
+      
+      // Convert markdown-like formatting to HTML
+      let formatted = text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/^- (.*?)(?=\n|$)/gm, '<li>$1</li>')
+        .replace(/(\d+\.\s.*?)(?=\n\d+\.|\n\n|$)/gs, '<li>$1</li>')
+        .replace(/\n/g, '<br>');
+      
+      // Wrap lists in ul/ol
+      if (formatted.includes('<li>')) {
+        formatted = '<ul>' + formatted + '</ul>';
       }
-      localStorage.setItem('last_decision', decision);
-      showToast('Decision saved locally!');
+      
+      return formatted;
     }
 
-    // Load previous decision if exists
+    // Calculate confidence score
+    function calculateConfidence(decision, options, pros, cons) {
+      let score = 50; // Base score
+      
+      if (decision.length > 100) score += 10;
+      if (options.includes('\n')) score += 10;
+      if (pros.length > 50) score += 10;
+      if (cons.length > 50) score += 10;
+      if (decision.includes('?')) score += 5;
+      
+      // Ensure score is between 60-95
+      score = Math.min(95, Math.max(60, score));
+      
+      return score;
+    }
+
+    // Generate mock response for demo
+    function generateMockResponse(decision, options, pros, cons, priority) {
+      return `1. DECISION OVERVIEW:
+You're facing a significant decision that requires careful consideration. The decision revolves around: "${decision}". 
+You've identified key options and weighed both positive and negative aspects. Your stated priority is "${priority}", which should be the guiding principle in your evaluation.
+
+2. IN-DEPTH ANALYSIS:
+Based on your priority of "${priority}", here's how each option aligns:
+
+${options || 'Option A'}:
+- ${pros.split('\n')[0] || 'Positive aspect 1'}
+- ${pros.split('\n')[1] || 'Positive aspect 2'}
+- Consider how this supports your "${priority}" goal
+
+${options.split('\n')[1] || 'Option B'}:
+- ${cons.split('\n')[0] || 'Risk factor 1'}
+- ${cons.split('\n')[1] || 'Risk factor 2'}
+- Evaluate if this compromises your "${priority}"
+
+Key Insight: Decisions that align with your core values (${priority}) typically lead to greater long-term satisfaction, even if they involve short-term challenges.
+
+3. RISK ASSESSMENT:
+Primary Risks to Consider:
+- **Financial Risk**: ${cons.includes('money') || cons.includes('cost') ? 'Medium' : 'Low'} - Consider emergency funds and backup plans
+- **Career Risk**: ${decision.includes('job') || decision.includes('career') ? 'Medium-High' : 'Low'} - Impact on future opportunities
+- **Personal Risk**: ${decision.includes('relationship') || decision.includes('family') ? 'High' : 'Low-Medium'} - Effects on personal life
+- **Timing Risk**: Evaluate if now is the optimal time or if waiting has advantages
+
+Risk Mitigation Strategies:
+1. Create a 6-month safety net for financial risks
+2. Have candid conversations with affected parties
+3. Document assumptions and revisit in 30 days
+
+4. ACTION PLAN:
+**Week 1: Information Gathering**
+- Research each option for 2 hours
+- Talk to 3 people who made similar choices
+- Document specific questions for each option
+
+**Week 2: Emotional Check**
+- Sleep on the decision for 2 nights
+- Imagine you chose each option - how do you feel?
+- Revisit your "${priority}" - is it still your true priority?
+
+**Week 3: Decision Point**
+- Make preliminary choice on Day 15
+- Test decision for 24 hours (act as if you've chosen)
+- Finalize and commit on Day 21
+
+**Pro Tip**: The 10-10-10 rule: How will you feel about this decision in 10 hours, 10 weeks, and 10 years? This often reveals what truly matters.`;
+    }
+
+    // Load saved API key on page load
     window.addEventListener('load', () => {
-      const lastDecision = localStorage.getItem('last_decision');
-      if (lastDecision) {
-        document.getElementById('decision').value = lastDecision;
-        decisionCount.textContent = `${lastDecision.length}/500`;
+      const savedKey = localStorage.getItem('deepseek_api_key');
+      if (savedKey) {
+        document.getElementById('api-key').value = '••••••••••••••••';
       }
     });
   </script>
