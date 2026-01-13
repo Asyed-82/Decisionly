@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NextStep AI – Decision Helper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 40px;
+    }
+    .box {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #1e40af;
+    }
+    .result {
+      margin-top: 20px;
+      background: #eef2ff;
+      padding: 15px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h1>NextStep AI</h1>
+    <p><strong>What decision are you struggling with?</strong></p>
+    <textarea id="decision" placeholder="e.g., Should I change my job?"></textarea>
+
+    <p><strong>Pros</strong></p>
+    <textarea id="pros" placeholder="List benefits..."></textarea>
+
+    <p><strong>Cons</strong></p>
+    <textarea id="cons" placeholder="List risks or downsides..."></textarea>
+
+    <p><strong>What matters most to you right now?</strong></p>
+    <input id="priority" placeholder="e.g., stability, growth, peace of mind">
+
+    <button onclick="analyzeDecision()">Get Insight</button>
+
+    <div id="output" class="result" style="display:none;"></div>
+  </div>
+
+  <script>
+    function analyzeDecision() {
+      const decision = document.getElementById("decision").value;
+      const pros = document.getElementById("pros").value;
+      const cons = document.getElementById("cons").value;
+      const priority = document.getElementById("priority").value;
+
+      const output = `
+        <h3>Decision Summary</h3>
+        <p><strong>Decision:</strong> ${decision}</p>
+        <p><strong>Top Priority:</strong> ${priority}</p>
+        <p><strong>Reflection:</strong><br>
+        If your priority is <em>${priority}</em>, choose the option that best supports it while minimizing long-term regret.</p>
+      `;
+
+      document.getElementById("output").innerHTML = output;
+      document.getElementById("output").style.display = "block";
+    }
+  </script>
+</body>
+</html>
